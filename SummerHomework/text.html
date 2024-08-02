@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change CSS with Select Box</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        .dynamic-style {
+            background-color: lightblue;
+            color: black;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <select class="select-box" name="language">
+        <option value="english">English</option>
+        <option value="japanese">日本語</option>
+        <option value="binary">01</option>
+        <option value="hexadecimal">FF</option>
+    </select>
+    
+    <div class="introduction-box">
+        <div class="introduction-background"> 
+            <div class="panda-intro-english">
+                <p>Introducing</p>
+            </div>
+            <p class="panda-intro-binary hidden">01110100</p>
+            <p class="panda-intro-hexadecimal hidden">4C</p>
+            <p class="panda-intro-japanese hidden">
+                <span class="red-text">パンダ</span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.select-box').addEventListener('change', function () {
+            var selectedValue = this.value;
+            var $english = document.querySelector('.panda-intro-english');
+            var $binary = document.querySelector('.panda-intro-binary');
+            var $hexadecimal = document.querySelector('.panda-intro-hexadecimal');
+            var $japanese = document.querySelector('.panda-intro-japanese');
+            
+            // Hide all elements
+            $english.classList.add('hidden');
+            $binary.classList.add('hidden');
+            $hexadecimal.classList.add('hidden');
+            $japanese.classList.add('hidden');
+
+            // Show only the one that matches the selected value
+            if (selectedValue === 'english') {
+                $english.classList.remove('hidden');
+            } else if (selectedValue === 'binary') {
+                $binary.classList.remove('hidden');
+            } else if (selectedValue === 'hexadecimal') {
+                $hexadecimal.classList.remove('hidden');
+            } else if (selectedValue === 'japanese') {
+                $japanese.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

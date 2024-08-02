@@ -1,0 +1,352 @@
+@charset "utf-8";
+
+*,
+::before,
+::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: default;
+}
+main {
+  background-image: url(../Images/bamboo-fores.jpg);
+  /* filter: hue-rotate(-50deg) saturate(5) brightness(0.4); */
+  background-repeat: no-repeat;
+  background-size: 100vw 100vh;
+  min-width: 1310px;
+}
+.red-text {
+  color: red;
+  text-decoration: line-through;
+}
+
+.blue-text {
+  color: blue;
+  font-weight: bold;
+}
+
+.redacted {
+  text-decoration: line-through;
+}
+
+.introduction-box {
+  width: 40vw;
+}
+
+.introduction-box p {
+  margin-top: 20px;
+}
+
+.panda-intro-english p {
+  margin-top: 5px;
+}
+.panda-intro-binary{
+  font-size: 32px;
+}
+.hidden{
+  display: none;
+}
+.playwrite-hu {
+  font-family: "Playwrite HU", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+.main-box{
+  display: fixed;
+  height: 105vh;
+  justify-content: space-between;
+  border: 1px solid black;
+  min-width: 1800px;
+}
+.picture-box{
+  position: fixed;
+  min-width: 1800px;
+  /* background-color: purple; */
+}
+.introduction-box{
+  background-image: backgroun;
+  position: fixed;
+  flex-direction: row;
+  background-color: #C19A6B;
+  height: 100vh;
+  left: 1037.5px;
+  width:35vw;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.introduction-background{
+  position: relative;
+  top: 70px;
+  left: 3.5vw;
+  width: 30vw;
+  min-width: 0px;
+  justify-content: center;
+  /* background-color: #C19A6B; */
+  z-index: 3;
+  background-position: 40% ;
+  padding-bottom: 100px;
+  padding-right: 20px;
+}
+/* #region Introduction Texts */
+.panda-intro-english {
+  font-family: "Playwrite HU", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+}
+.title{
+  font-size: 32px;
+  font-weight: 900;
+  margin-top: -10px;
+}
+.panda-intro-japanese {
+  font-family: "Playwrite HU", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+}
+.clickbait{
+  padding-top: 50px;
+  font-size: 42px;
+}
+.clickbait-jp{
+  font-size: 28px;
+  animation: fade-in 1.5s forwards;
+}
+.clickbait-text{
+  text-decoration-line: underline;
+  font-weight: 900;
+  color: red;
+  cursor: pointer;
+}
+.panda-intro-hexadecimal
+{
+  font-size: 16px;
+}
+/* #endregion */
+
+/* #region Images*/
+
+.panda-image{
+  position: absolute;
+  top: 760px;
+  left: 600px;
+}
+.heart-image{
+  display: none;
+}
+.heart-show{
+  position: absolute;
+  display: flex;
+  height: 90px;
+  animation: wave 1.5s cubic-bezier(0.42, 0, 0.58, 1) forwards;
+  animation-iteration-count: 1;
+}
+.claw-image{
+  position: fixed;
+  bottom: 0vh;
+  left: 25vh;
+  height: 1000px;
+  width: 1400px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+/* #endregion */
+.crosshair{
+  cursor: crosshair;
+}
+
+.phase2{
+  opacity: 0.8;
+}
+.phase3{
+  opacity: 0;
+}
+/* #region header stuff */
+header{
+  position: fixed;
+  z-index: 20;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  transform: scale(1);
+  height: 70px;
+  background-color: white;
+  width: 100vw;
+}
+.site-text{
+  left:50vw;
+  font-family: "Playwrite HU", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 36px;
+  background-color: skyblue;
+  height: 80px;
+  width: 170px;
+  padding: 0px 5px;
+  border-radius: 12px;
+}
+.name-of-site{
+  margin-top: 2px;
+}
+.select-box{
+  font-size: 54px;
+  border-radius: 12px;
+  background-color: pink;
+  color: rgba(0, 0, 0, 0.479);
+  margin-top: 2px;
+  cursor: pointer;
+}
+.select-box option{
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.479);
+  cursor: pointer;
+}
+.logo{
+  position: relative;
+  right: 50px;
+  height: 70px;
+  cursor: pointer;
+}
+/* #endregion */
+/* #region animations */
+.blinking{
+  animation: blink 0.4s infinite;
+}
+.opacity-blinking{
+  animation: opacity-blink 1.2s infinite;
+}
+@keyframes blink {
+  0%,  100% {
+      color: red;
+  }
+  50%{
+    color: yellow; 
+  } 
+}
+@keyframes opacity-blink{
+  0%,  100% {
+    opacity: 1; /* Text is visible */
+  }
+  50%{
+    opacity: 0.2; /* Text is invisible */
+}
+}
+@keyframes wave{
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-5px, -15px); }
+  50% { transform: translate(5px, -30px); }
+  75% { transform: translate(-5px, -45px); }
+  100% { transform: translate(0, -60px); }
+}
+@keyframes fade-in{
+  0%{opacity: 0}
+  100%{opacity: 1}
+}
+/* #endregion */
+body::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+/* #region Modal */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content Box */
+  .modal-content {
+    display: flex;
+    background-color: #140a0a;
+    margin: 4% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    min-height: 90vh;
+  }
+
+/* #region The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-text-en{
+  font-size: 40px;
+  font-weight: 500;
+  color: red;
+  margin-left: 20px;
+}
+.modal-text-jp {
+  font-size: 28px;
+  font-weight: 500;
+  color: red;
+  margin-left: 20px;
+}
+.camo-text{
+  margin-top: 20px;
+  color: #140a0a;
+}
+.modal-text{
+  margin-top: 10px;
+}
+.modal-text-hex{
+  position: relative;
+  top: 0vh;
+  width: 1000px;
+  font-size: 32px;
+  color: red;
+  background-color: green;
+  border-color: blue;
+  border-width: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 220px;
+}
+#map{
+  width: 50vw;
+}
+#bearPortrait{
+  position: relative;
+  top: -1vh;
+}
+.clickable-rifle{
+  position: absolute;
+  top: 400px;
+  left: 1175px;
+  transform: rotate(90deg);
+  width: 40%;
+  opacity: 1;
+  z-index: 10;
+}
+.vertical-layout{
+  flex-direction: "column";
+  justify-content: "space-between";
+  align-items: "center";
+}
+/* #endregion */
+/* #endregion */
