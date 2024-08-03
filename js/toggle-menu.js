@@ -9,14 +9,17 @@ var $main = document.getElementById('main-content');
 var $claw = document.querySelector('.claw-image');
 
 var gunshotSound = new Audio('./Audio/gunshot.mp3')
+//#region disablers
 function disableSelectBox() {
     document.querySelector('.select-box').disabled = true;
 }
-
 function enableSelectBox() {
     document.querySelector('.select-box').disabled = false;
 }
-
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+//#endregion
 document.addEventListener('DOMContentLoaded', function () {
     var targetElement = document.querySelector(".modal-content");;
     var visibleTime = 3000;
