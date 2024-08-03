@@ -8,16 +8,26 @@
   box-sizing: border-box;
   cursor: default;
 }
+body{
+  padding: 0;
+  margin: 0;
+  background-color: green;
+}
 @font-face {
   font-family: 'hymmnos';
   src: url(../fonts/hymmnos.ttf);
 }
 main {
+  position: relative;
   background-image: url(../Images/bamboo-fores.jpg);
   /* filter: hue-rotate(-50deg) saturate(5) brightness(0.4); */
+  padding: 0;
+  margin: 0;
   background-repeat: no-repeat;
-  background-size: 100vw 100vh;
-  min-width: 1310px;
+  background-size: 2000px 1050px;
+  min-width: 2000px;
+  min-height: 1050px;
+  object-fit:contain;
 }
 .red-text {
   color: red;
@@ -62,23 +72,24 @@ main {
 }
 .main-box{
   display: fixed;
-  height: 105vh;
+  position: relative;
+  height: 100vh;
   justify-content: space-between;
   border: 1px solid black;
   min-width: 1800px;
 }
 .picture-box{
-  position: fixed;
+  position: absolute;
   min-width: 1800px;
   /* background-color: purple; */
 }
 .introduction-box{
-  position: fixed;
+  position: absolute;
   flex-direction: row;
   background-color: #C19A6B;
-  height: 100vh;
+  height: 950px;
   left: 1037.5px;
-  width:35vw;
+  width: 680px;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -86,13 +97,13 @@ main {
 .introduction-background{
   position: relative;
   top: 70px;
-  left: 3.5vw;
-  width: 30vw;
+  left: 55px;
+  width: 600px;
   min-width: 0px;
   justify-content: center;
   /* background-color: #C19A6B; */
   z-index: 3;
-  background-position: 40% ;
+  background-position: 40%;
   padding-bottom: 100px;
   padding-right: 20px;
 }
@@ -139,7 +150,7 @@ main {
 /* #region Images*/
 
 .panda-image{
-  position: absolute;
+  position: relative;
   top: 760px;
   left: 600px;
 }
@@ -168,10 +179,11 @@ main {
 }
 
 .phase2{
-  left: 950px;
-  transform: rotateY(180deg);
+  left: 1522px;
+  /* bottom: 100px; */
+  /* transform: rotateY(180deg); */
   color: rgb(255, 68, 68);
-  opacity: 0.15;
+  opacity: 1;
 }
 .phase-three-panda{
   position: absolute;
@@ -287,12 +299,15 @@ body::-webkit-scrollbar {
   /* Modal Content Box */
   .modal-content {
     display: flex;
+    position: relative;
     background-color: #140a0a;
     margin: 4% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
-    min-height: 90vh;
+    height: 80%;
+    min-height: 700px;
+    min-width: 800px;
   }
 
 /* #region The Close Button */
@@ -329,9 +344,13 @@ body::-webkit-scrollbar {
 .modal-text{
   margin-top: 10px;
 }
+#bearPortrait{
+  position: absolute;
+  top: 20px;
+}
 .modal-text-hex{
-  position: relative;
-  top: 0vh;
+  position: absolute;
+  bottom: 0vh;
   width: 1000px;
   font-size: 30px;
   color: rgb(66, 35, 0);
@@ -345,16 +364,15 @@ body::-webkit-scrollbar {
 #map{
   width: 50vw;
 }
-#bearPortrait{
-  position: relative;
-  top: -1vh;
-}
+
+
 .clickable-rifle{
   position: absolute;
   top: 400px;
-  left: 62vw;
+  right: -300px;
   transform: rotate(90deg);
-  width: 40%;
+  width: 800px;
+  min-width: 800px;
   opacity: 1;
   z-index: 10;
 }

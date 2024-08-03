@@ -230,6 +230,7 @@ document.querySelector('.phase-three-panda').addEventListener('click', function 
         $claw.style.transition = 'filter 0s';
         $main.style.transition = 'filter 0s';
         $main.style.backgroundImage = 'none';
+        document.body.backgroundColor = 'white';
         $claw.classList.add('hidden');
         fakeSiteA.forEach(function(element) {
             element.classList.add('hidden');
@@ -253,33 +254,33 @@ document.querySelector('.logo').addEventListener('click', function() {
 })
 //#endregion
 //#region scroll disabler
-function preventScroll(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-}
+// function preventScroll(event) {
+//     event.preventDefault();
+//     event.stopPropagation();
+//     return false;
+// }
 
-// Function to disable scrolling
-function disableScroll() {
-    window.addEventListener('scroll', preventScroll, { passive: false });
-    window.addEventListener('wheel', preventScroll, { passive: false });
-    window.addEventListener('touchmove', preventScroll, { passive: false });
-    window.addEventListener('keydown', preventScroll, { passive: false });
-    document.addEventListener('mousedown', function(event) {
-    if (event.button === 1) { // Check if middle mouse button is clicked
-        event.preventDefault(); // Prevent the default action (scrolling)
-    }
-    });
-}
+// // Function to disable scrolling
+// function disableScroll() {
+//     window.addEventListener('scroll', preventScroll, { passive: false });
+//     window.addEventListener('wheel', preventScroll, { passive: false });
+//     window.addEventListener('touchmove', preventScroll, { passive: false });
+//     window.addEventListener('keydown', preventScroll, { passive: false });
+//     document.addEventListener('mousedown', function(event) {
+//     if (event.button === 1) { // Check if middle mouse button is clicked
+//         event.preventDefault(); // Prevent the default action (scrolling)
+//     }
+//     });
+// }
 
-function enableScroll() {
-    window.removeEventListener('scroll', preventScroll);
-    window.removeEventListener('wheel', preventScroll);
-    window.removeEventListener('touchmove', preventScroll);
-    window.removeEventListener('keydown', preventScroll);
-}
-// Disable scrolling on page load
-window.addEventListener('load', disableScroll);
+// function enableScroll() {
+//     window.removeEventListener('scroll', preventScroll);
+//     window.removeEventListener('wheel', preventScroll);
+//     window.removeEventListener('touchmove', preventScroll);
+//     window.removeEventListener('keydown', preventScroll);
+// }
+// // Disable scrolling on page load
+// window.addEventListener('load', disableScroll);
 //#endregion
 // #region modal controller
 // Get the modal
@@ -318,6 +319,9 @@ logo.onclick = function(){
     }
     if(logoClicked === false && selectedValue === "hexadecimal")
     {
+        if(haveRifle === true){
+            return;
+        }
         disableSelectBox();
         modalContent.style.flexDirection = "column";
         modalContent.style.justifyContent = "center";
@@ -358,16 +362,17 @@ function showNextText() {
     console.log(currentIndex);
     clearInterval(intervalId);
 
-    if(currentIndex == 1)
+    if(currentIndex <= 3 && currentIndex != 0)
     {
         intervalId = setInterval(showNextText, 5000);
         console.log(currentIndex);
         console.log(texts.length);
     }
-    else if(currentIndex % texts.length == 0)
+    else if(currentIndex % texts.length === 0)
     {
         console.log(currentIndex);
         console.log(texts.length);
+        console.log('I am supposed to run')
         intervalId = setInterval(showNextText, 6000);
         stopTextRotation();
         hexModal = false;
