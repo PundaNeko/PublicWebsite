@@ -8,6 +8,10 @@
   box-sizing: border-box;
   cursor: default;
 }
+@font-face {
+  font-family: 'hymmnos';
+  src: url(../fonts/hymmnos.ttf);
+}
 main {
   background-image: url(../Images/bamboo-fores.jpg);
   /* filter: hue-rotate(-50deg) saturate(5) brightness(0.4); */
@@ -43,6 +47,10 @@ main {
 .panda-intro-binary{
   font-size: 32px;
 }
+.bin-2{
+  font-family: 'hymmnos';
+  font-size: 30px
+}
 .hidden{
   display: none;
 }
@@ -65,7 +73,6 @@ main {
   /* background-color: purple; */
 }
 .introduction-box{
-  background-image: backgroun;
   position: fixed;
   flex-direction: row;
   background-color: #C19A6B;
@@ -161,10 +168,18 @@ main {
 }
 
 .phase2{
-  opacity: 0.8;
+  left: 950px;
+  transform: rotateY(180deg);
+  color: rgb(255, 68, 68);
+  opacity: 0.15;
 }
-.phase3{
-  opacity: 0;
+.phase-three-panda{
+  position: absolute;
+  width: 3000px; 
+  left: -580px;
+  top: 100px;
+  z-index: 1000;
+  /* opacity: 1; */
 }
 /* #region header stuff */
 header{
@@ -220,7 +235,7 @@ header{
   animation: blink 0.4s infinite;
 }
 .opacity-blinking{
-  animation: opacity-blink 1.2s infinite;
+  animation: opacity-blink 120s infinite;
 }
 @keyframes blink {
   0%,  100% {
@@ -318,9 +333,9 @@ body::-webkit-scrollbar {
   position: relative;
   top: 0vh;
   width: 1000px;
-  font-size: 32px;
-  color: red;
-  background-color: green;
+  font-size: 30px;
+  color: rgb(66, 35, 0);
+  background-color: rgb(226, 235, 253);
   border-color: blue;
   border-width: 5px;
   padding-left: 10px;
@@ -337,7 +352,7 @@ body::-webkit-scrollbar {
 .clickable-rifle{
   position: absolute;
   top: 400px;
-  left: 1175px;
+  left: 62vw;
   transform: rotate(90deg);
   width: 40%;
   opacity: 1;

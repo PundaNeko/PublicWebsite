@@ -1,12 +1,26 @@
 let haveRifle = false;
 let isJapanese = false;
 let japaneseTextShow = false;
+let bearInPhaseThree = false;
+let slashed = false;
+let bearKilled = false;
+let timeoutId;
+var $main = document.getElementById('main-content');
+var $claw = document.querySelector('.claw-image');
 
+var gunshotSound = new Audio('./Audio/gunshot.mp3')
+function disableSelectBox() {
+    document.querySelector('.select-box').disabled = true;
+}
+
+function enableSelectBox() {
+    document.querySelector('.select-box').disabled = false;
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     var targetElement = document.querySelector(".modal-content");;
     var visibleTime = 3000;
-
+    
     function handleVisibility() {
         console.log("The element has been visible for " + visibleTime + " milliseconds.");
         // Add your desired action here
@@ -45,9 +59,10 @@ document.querySelector('.select-box').addEventListener('change', function () {
     var $map = document.getElementById('map');
     var $bear = document.getElementById('bearPortrait')
     var $rifle = document.querySelector('.clickable-rifle');
-    var $main = document.getElementById('main-content')
-
+    var $binary2 = document.querySelector('.bin-2');
+    var audioEnrage = new Audio('./Audio/BearHurt2.wav');
     // Hide all elements
+    clearTimeout(timeoutId);
     englishElements.forEach(function(element) {
         element.classList.add('hidden');
     });
@@ -60,12 +75,17 @@ document.querySelector('.select-box').addEventListener('change', function () {
     japaneseElements.forEach(function(element) {
         element.classList.add('hidden');
     });
+    $binary2.classList.add('hidden');
     $logo.classList.remove('opacity-blinking');
     $map.classList.remove('hidden');
     $bear.classList.remove('hidden');
     $rifle.classList.add('hidden');
     $main.style.transition ="filter 3s";
     $main.style.filter = "brightness(100%)";
+    var slashSFX = new Audio('./Audio/slash-sound.mp3');
+    gunshotSound.pause();
+    gunshotSound.currentTime = 0;
+    
     // Show only the one that matches the selected value
     if (selectedValue === 'english') {
         englishElements.forEach(function(element) {
@@ -74,11 +94,38 @@ document.querySelector('.select-box').addEventListener('change', function () {
         $bear.classList.add('hidden');
     } 
     else if (selectedValue === 'binary') {
-        binElements.forEach(function(element) {
-            element.classList.remove('hidden');
-        });
+        if(slashed === false)
+        {
+            binElements.forEach(function(element) {
+                element.classList.remove('hidden');
+            });
+        }
+        if(slashed === true)
+        {
+            $binary2.classList.remove('hidden');
+        }
         $main.style.transition ="filter 10s";
         $main.style.filter = "brightness(0%)";
+        if(bearInPhaseThree === true)
+        {
+            $main.style.transition ="filter 10s";
+            $main.style.filter = "brightness(0%)";
+            timeoutId = setTimeout(function(){
+                slashed = true;
+                disableSelectBox();
+                audioEnrage.play();
+                setTimeout(function(){
+                    binElements.forEach(function(element) {
+                        element.classList.add('hidden');
+                    });
+                    $claw.classList.remove('hidden');
+                    $main.style.filter = "hue-rotate(-50deg) saturate(5) brightness(0.4)";
+                    $binary2.classList.remove('hidden'); 
+                    document.querySelector('.phase-three-panda').classList.remove('hidden');  
+                    slashSFX.play();  
+                }, 1500);
+            }, 11000);
+        }
     } 
     else if (selectedValue === 'hexadecimal') {
         hexElements.forEach(function(element) {
@@ -98,10 +145,12 @@ document.querySelector('.select-box').addEventListener('change', function () {
     }
 });
 
-// document.querySelector('.clickbait-text').addEventListener('click', function () {
-//     var $clickbait = document.querySelector('.clickbait-text');
-//     $clickbait.classList.remove('blinking');
-// });
+//#region onclick Events
+var amogusAudio = new Audio('./Audio/amogus.mp3');
+var windowsErrorAudio = new Audio('./Audio/error.mp3');
+var $errorSite = document.querySelector('.error-page');
+var skyrimAudio = new Audio('./Audio/skyrim-awake.wav');
+var fakeSiteA = document.querySelectorAll('.fake-site');
 document.querySelector('.hidden-reveal-jp').addEventListener('click', function () {
     var $test = document.querySelector('.hidden-reveal-jp');
     var $text = document.querySelector('.hidden-text-jp');
@@ -110,7 +159,7 @@ document.querySelector('.hidden-reveal-jp').addEventListener('click', function (
 document.querySelector('.panda-image').addEventListener('click', function () {
     var $panda = document.querySelector('.panda-image');
     var $heart = document.querySelector('.heart-image');
-
+    gunshotSound.volume = 0.6;
     const rect = $panda.getBoundingClientRect();
     //position offset
     const offsetX = -75;
@@ -120,13 +169,13 @@ document.querySelector('.panda-image').addEventListener('click', function () {
     var audio = new Audio('./Audio/se_cat01.wav');
     var audio2 = new Audio('./Audio/BearHurt1.mp3');
     var audio3 = new Audio('./Audio/BearHurt2-1.mp3');
-    var audioEnrage = new Audio('./Audio/BearHurt2.wav');
-    var audio4 = new Audio('./Audio/BearGone.mp3');
+    
+    
 
-    audio.volume = 0.3;
-    audio2.volume = 0.5;
-    audio3.volume = 0.6;
-    audio4.volume = 0.5;
+    audio.volume = 1;
+    audio2.volume = 1;
+    audio3.volume = 1;
+    
     //#endregion
     if (haveRifle === false) {
         $heart.style.left = (rect.right + offsetX) + 'px';
@@ -142,24 +191,64 @@ document.querySelector('.panda-image').addEventListener('click', function () {
         return;
     }
     if ($panda.classList.contains('phase2')) {
-        $panda.classList.add('phase3');
+        bearInPhaseThree = true;
         $panda.classList.remove('phase2');
+        $panda.classList.add('hidden');  
+        
+        gunshotSound.play();
+
         audio3.play();
     }
     else if ($panda.classList.contains('phase3')) {
-        $panda.classList.add('hidden');
-        $panda.classList.remove('phase3');                                       
-        audio4.play();
+        $panda.classList.add('hidden');   
+        
     }
     else {
         $panda.classList.add('phase2');
         audio2.play();
+        gunshotSound.play();
     }
 });
+document.querySelector('.phase-three-panda').addEventListener('click', function () {
+    var audio4 = new Audio('./Audio/BearGone.mp3');
+    bearInPhaseThree = false;
+    audio4.play();
+    gunshotSound.play();
+    audio4.volume = 0.5;
+    document.querySelector('.phase-three-panda').classList.add('hidden');
+    $main.style.filter = 'hue-rotate(-50deg) saturate(5) brightness(0)';
+    $main.style.transition = 'filter 7s';
+    $claw.style.filter = 'brightness(0)';
+    $claw.style.transition = 'filter 7s';
+    setTimeout(function(){
+        amogusAudio.play();
+    }, 7500)
+    setTimeout(function() {
+        $claw.style.transition = 'filter 0s';
+        $main.style.transition = 'filter 0s';
+        $main.style.backgroundImage = 'none';
+        $claw.classList.add('hidden');
+        fakeSiteA.forEach(function(element) {
+            element.classList.add('hidden');
+        });
+        windowsErrorAudio.play();
+        $main.style.filter = 'brightness(100%)';
+        $errorSite.classList.remove('hidden');
+    }, 11000)
+    bearKilled = true;
+})
+document.querySelector('.reload-button').addEventListener('click', function(){
+    $errorSite.classList.add('hidden');
+    setTimeout(function(){
+        //Remove on next Update
+        $errorSite.classList.remove('hidden');
+        windowsErrorAudio.play();
+    }, 2000);
+})
 document.querySelector('.logo').addEventListener('click', function() {
     document.querySelector('.logo').classList.remove('opacity-blinking');
 })
-
+//#endregion
 //#region scroll disabler
 function preventScroll(event) {
     event.preventDefault();
@@ -193,7 +282,7 @@ window.addEventListener('load', disableScroll);
 // Get the modal
 var modal = document.getElementById("myModal");
 var modalContent = document.querySelector(".modal-content")
-
+var bearAudio = new Audio('./Audio/Bear_ost.mp3');
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
@@ -209,6 +298,7 @@ let intervalId;
 // Loop through each element and add the onclick event listener
 btns.forEach(function(btn) {
     btn.onclick = function() {
+        disableSelectBox();
         modalContent.style.flexDirection = "row";
         modalContent.style.justifyContent = "flex-start";
         modalContent.style.alignItems = "flex-start";
@@ -221,10 +311,11 @@ logo.onclick = function(){
     var selectedValue = document.querySelector('.select-box').value;
     if(selectedValue != 'hexadecimal')
     {
-        return
+        return;s
     }
     if(logoClicked === false && selectedValue === "hexadecimal")
     {
+        disableSelectBox();
         modalContent.style.flexDirection = "column";
         modalContent.style.justifyContent = "center";
         modalContent.style.alignItems = "center";
@@ -233,11 +324,15 @@ logo.onclick = function(){
         //logoClicked = true;
         hexModal = true;
         logo.style.cursor = "default";
+        bearAudio.play();
+        bearAudio.volume = 0.4;
     }
     startTextRotation();
 }
 
 document.querySelector('.clickable-rifle').addEventListener('click', function () {
+    bearAudio.pause();
+    enableSelectBox();
     var $rifle = document.querySelector('.clickable-rifle');
     $rifle.classList.add('hidden');
     document.body.classList.add('crosshair');
@@ -291,12 +386,14 @@ function stopTextRotation() {
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
-        // if(hexModal === false)
-        // {
-        // }
+        if(hexModal === false)
+        {
+            enableSelectBox();
             modal.style.display = "none";
-        modalContent.style.backgroundColor = '#140a0a';
-        currentIndex = 0;
-        stopTextRotation();
+            modalContent.style.backgroundColor = '#140a0a';
+            currentIndex = 0;
+            stopTextRotation();
+        }
     }
 }
+//#endregion
