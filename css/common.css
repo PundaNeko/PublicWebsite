@@ -52,7 +52,7 @@ main {
 }
 
 .panda-intro-english p {
-  margin-top: 5px;
+  margin-top: 5px;/
 }
 .panda-intro-binary{
   font-size: 32px;
@@ -63,6 +63,10 @@ main {
 }
 .hidden{
   display: none;
+  
+}
+.invisible{
+  visibility: hidden;
 }
 .playwrite-hu {
   font-family: "Playwrite HU", cursive;
@@ -183,7 +187,7 @@ main {
   /* bottom: 100px; */
   /* transform: rotateY(180deg); */
   color: rgb(255, 68, 68);
-  opacity: 1;
+  opacity: 0.1;
 }
 .phase-three-panda{
   position: absolute;
@@ -237,7 +241,6 @@ header{
 }
 .logo{
   position: relative;
-  right: 50px;
   height: 70px;
   cursor: pointer;
 }
@@ -284,47 +287,31 @@ body::-webkit-scrollbar {
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 100; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
   
-  /* Modal Content Box */
-  .modal-content {
-    display: flex;
-    position: relative;
-    background-color: #140a0a;
-    margin: 4% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    height: 80%;
-    min-height: 700px;
-    min-width: 800px;
-  }
-
-/* #region The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+/* Modal Content Box */
+.modal-content {
+  display: flex;
+  position: relative;
+  background-color: #140a0a;
+  margin: 4% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  height: 80%;
+  min-height: 700px;
+  min-width: 800px;
 }
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 .modal-text-en{
   font-size: 40px;
   font-weight: 500;
@@ -376,10 +363,27 @@ body::-webkit-scrollbar {
   opacity: 1;
   z-index: 10;
 }
+
 .vertical-layout{
   flex-direction: "column";
   justify-content: "space-between";
   align-items: "center";
 }
 /* #endregion */
-/* #endregion */
+.image-rifle{
+  position: relative;
+  width: 100px;
+  left: -85px;
+  z-index: 0;
+}
+.panda-image-compilation{
+  margin-left: 200px;
+}
+
+.image-heart{
+  position: relative;
+  left: -177px;
+  width: 20px;
+  top: -50px;
+  z-index: 100;
+}

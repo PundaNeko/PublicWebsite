@@ -52,7 +52,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Start observing the target element
     observer.observe(targetElement);
 });
+
+let paperTorn = false;
+//#region Audio Variables
+var audioEnrage = new Audio('./Audio/BearHurt2.wav');
+var tickTock = new Audio('./Audio/tick-tock.mp3');
+var doorSound = new Audio('./Audio/door-open-close.mp3');
+var stompSound = new Audio('./Audio/stomping.mp3');
+var caveSound = new Audio('./Audio/Cave13.ogg');
+var clothSound = new Audio('./Audio/cloth-tear.mp3');
+var slashSFX = new Audio('./Audio/slash-sound.mp3');
+
+//#endregion
+const timeoutIds = [];
+
 document.querySelector('.select-box').addEventListener('change', function () {
+    //#region variables
     var selectedValue = this.value;
     var englishElements = document.querySelectorAll('.en');
     var binElements = document.querySelectorAll('.bin');
@@ -63,9 +78,23 @@ document.querySelector('.select-box').addEventListener('change', function () {
     var $bear = document.getElementById('bearPortrait')
     var $rifle = document.querySelector('.clickable-rifle');
     var $binary2 = document.querySelector('.bin-2');
-    var audioEnrage = new Audio('./Audio/BearHurt2.wav');
-    // Hide all elements
+    var $header = document.querySelector('.header');
+    var $body =
+    
+    //#endregion
+    // element initializations
+        
+    // Pause all sounds
+    audioEnrage.pause();
+    tickTock.pause();
+    tickTock.currentTime = 0;
+    stopAllTasks();
     clearTimeout(timeoutId);
+    gunshotSound.currentTime = 0;
+    
+    gunshotSound.pause();
+    //#region hide stuff
+    //$header.style.transition ="filter 0s";
     englishElements.forEach(function(element) {
         element.classList.add('hidden');
     });
@@ -83,11 +112,10 @@ document.querySelector('.select-box').addEventListener('change', function () {
     $map.classList.remove('hidden');
     $bear.classList.remove('hidden');
     $rifle.classList.add('hidden');
+
     $main.style.transition ="filter 3s";
     $main.style.filter = "brightness(100%)";
-    var slashSFX = new Audio('./Audio/slash-sound.mp3');
-    gunshotSound.pause();
-    gunshotSound.currentTime = 0;
+    //#endregion
     
     // Show only the one that matches the selected value
     if (selectedValue === 'english') {
@@ -97,22 +125,111 @@ document.querySelector('.select-box').addEventListener('change', function () {
         $bear.classList.add('hidden');
     } 
     else if (selectedValue === 'binary') {
-        if(slashed === false)
+        if(slashed === false && paperTorn === false)
         {
+            $main.style.transition ="filter 8s";
+            $main.style.filter = 'brightness(0%)';
             binElements.forEach(function(element) {
                 element.classList.remove('hidden');
             });
+            
+            const tasks = [
+                {
+                    delay: 9000,
+                    action: function() {
+                        tickTock.play();
+                        tickTock.loop = true;
+                    }
+                },
+                {
+                    delay: 13000,
+                    action: function() {
+                        doorSound.play();
+                        disableSelectBox();
+                        $header.style.filter="brightness(0%)";
+                        $header.style.transition ="filter 1s";
+                    }
+                },
+                {
+                    delay: 18000,
+                    action: function() {
+                        doorSound.pause();
+                        stompSound.play();
+                    }
+                },
+                {
+                    delay: 23100,
+                    action: function() {
+                        stompSound.pause();
+                        caveSound.play();
+                    }
+                },
+                {
+                    delay: 30100,
+                    action: function() {
+                        caveSound.pause();
+                        stompSound.play();
+                    }
+                },
+                {
+                    delay: 35100,
+                    action: function(){
+                        stompSound.pause();
+                    }
+                },
+                {
+                    delay: 37000,
+                    action: function(){
+                        clothSound.play();
+                        tickTock.pause();
+                        paperTorn = true;
+                        $binary2.classList.remove('hidden');
+                        binElements.forEach(function(element) {
+                            element.classList.add('hidden');
+                        });
+                    }
+                },
+                {
+                    delay: 41000,
+                    action: function(){
+                        stompSound.play();
+                    }
+                },
+                {
+                    delay: 43000,
+                    action: function(){
+                        doorSound.play();
+                    }
+                },
+                {
+                    delay: 50000,
+                    action: function(){
+                        $main.style.filter = 'brightness(100%)';
+                        $main.style.transition = 'filter 3s';
+                        $header.style.filter="brightness(100%)";
+                        enableSelectBox();
+                    }
+                }
+            ];
+    
+            tasks.forEach(task => {
+                const timeoutId = setTimeout(task.action, task.delay);
+                timeoutIds.push(timeoutId);
+            });
         }
-        if(slashed === true)
+        else
         {
+            // $main.style.filter = 'hue-rotate(-50deg) saturate(5) brightness(100%)'
+            $main.style.transition = "filter 3.8s";
+            
+            const timeoutId = setTimeout(() => {
+                $main.style.filter = 'brightness(0)'
+            }, 6000);;
+            timeoutIds.push(timeoutId);
             $binary2.classList.remove('hidden');
         }
-        $main.style.transition ="filter 10s";
-        $main.style.filter = "brightness(0%)";
         if(bearInPhaseThree === true)
         {
-            $main.style.transition ="filter 10s";
-            $main.style.filter = "brightness(0%)";
             timeoutId = setTimeout(function(){
                 slashed = true;
                 disableSelectBox();
@@ -148,7 +265,14 @@ document.querySelector('.select-box').addEventListener('change', function () {
     }
 });
 
+function stopAllTasks() {
+    timeoutIds.forEach(timeoutId => {
+        clearTimeout(timeoutId);
+    });
+    console.log('All tasks stopped.');
+}
 //#region onclick Events
+var hearts = document.querySelectorAll('.image-heart');
 var amogusAudio = new Audio('./Audio/amogus.mp3');
 var windowsErrorAudio = new Audio('./Audio/error.mp3');
 var $errorSite = document.querySelector('.error-page');
@@ -159,9 +283,11 @@ document.querySelector('.hidden-reveal-jp').addEventListener('click', function (
     var $text = document.querySelector('.hidden-text-jp');
     $text.classList.remove('hidden');
 });
+var pandaHearts = 0;
 document.querySelector('.panda-image').addEventListener('click', function () {
     var $panda = document.querySelector('.panda-image');
     var $heart = document.querySelector('.heart-image');
+    
     gunshotSound.volume = 0.6;
     const rect = $panda.getBoundingClientRect();
     //position offset
@@ -181,6 +307,11 @@ document.querySelector('.panda-image').addEventListener('click', function () {
     
     //#endregion
     if (haveRifle === false) {
+        if(pandaHearts != 3)
+        {
+            hearts[pandaHearts].classList.remove('invisible');
+            pandaHearts++;
+        }
         $heart.style.left = (rect.right + offsetX) + 'px';
         $heart.style.top = (rect.top + offsetY) + 'px';
         audio.play();
@@ -197,16 +328,12 @@ document.querySelector('.panda-image').addEventListener('click', function () {
         bearInPhaseThree = true;
         $panda.classList.remove('phase2');
         $panda.classList.add('hidden');  
-        
+        hearts[1].classList.add("invisible");
         gunshotSound.play();
-
         audio3.play();
     }
-    else if ($panda.classList.contains('phase3')) {
-        $panda.classList.add('hidden');   
-        
-    }
     else {
+        hearts[2].classList.add("invisible");
         $panda.classList.add('phase2');
         audio2.play();
         gunshotSound.play();
@@ -240,6 +367,7 @@ document.querySelector('.phase-three-panda').addEventListener('click', function 
         $errorSite.classList.remove('hidden');
     }, 11000)
     bearKilled = true;
+    hearts[0].classList.add("invisible");
 })
 document.querySelector('.reload-button').addEventListener('click', function(){
     $errorSite.classList.add('hidden');
@@ -345,6 +473,7 @@ document.querySelector('.clickable-rifle').addEventListener('click', function ()
     document.body.classList.add('crosshair');
     haveRifle = true;
     console.log(haveRifle);
+    document.querySelector('.image-rifle').classList.remove('invisible');
     modal.style.display = "none";
 });
 
