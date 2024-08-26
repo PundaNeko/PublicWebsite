@@ -62,7 +62,7 @@ var stompSound = new Audio('./Audio/stomping.mp3');
 var caveSound = new Audio('./Audio/Cave13.ogg');
 var clothSound = new Audio('./Audio/cloth-tear.mp3');
 var slashSFX = new Audio('./Audio/slash-sound.mp3');
-
+var bearSound = new Audio('./Audio/bear-sound.mp3');
 //#endregion
 const timeoutIds = [];
 
@@ -219,9 +219,7 @@ document.querySelector('.select-box').addEventListener('change', function () {
         }
         else
         {
-            // $main.style.filter = 'hue-rotate(-50deg) saturate(5) brightness(100%)'
             $main.style.transition = "filter 3.8s";
-            
             const timeoutId = setTimeout(() => {
                 $main.style.filter = 'brightness(0)'
             }, 6000);;
@@ -230,6 +228,7 @@ document.querySelector('.select-box').addEventListener('change', function () {
         }
         if(bearInPhaseThree === true)
         {
+            bearSound.play();
             timeoutId = setTimeout(function(){
                 slashed = true;
                 disableSelectBox();
@@ -381,36 +380,6 @@ document.querySelector('.logo').addEventListener('click', function() {
     document.querySelector('.logo').classList.remove('opacity-blinking');
 })
 //#endregion
-//#region scroll disabler
-// function preventScroll(event) {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     return false;
-// }
-
-// // Function to disable scrolling
-// function disableScroll() {
-//     window.addEventListener('scroll', preventScroll, { passive: false });
-//     window.addEventListener('wheel', preventScroll, { passive: false });
-//     window.addEventListener('touchmove', preventScroll, { passive: false });
-//     window.addEventListener('keydown', preventScroll, { passive: false });
-//     document.addEventListener('mousedown', function(event) {
-//     if (event.button === 1) { // Check if middle mouse button is clicked
-//         event.preventDefault(); // Prevent the default action (scrolling)
-//     }
-//     });
-// }
-
-// function enableScroll() {
-//     window.removeEventListener('scroll', preventScroll);
-//     window.removeEventListener('wheel', preventScroll);
-//     window.removeEventListener('touchmove', preventScroll);
-//     window.removeEventListener('keydown', preventScroll);
-// }
-// // Disable scrolling on page load
-// window.addEventListener('load', disableScroll);
-//#endregion
-// #region modal controller
 // Get the modal
 var modal = document.getElementById("myModal");
 var modalContent = document.querySelector(".modal-content")
@@ -426,6 +395,7 @@ let hexModal = false;
 const texts = modal.querySelectorAll('.automatically-updating-text');
 let currentIndex = 0;
 let intervalId;
+var nextButton = document.querySelector(".next-text-button");
 
 // Loop through each element and add the onclick event listener
 btns.forEach(function(btn) {
@@ -438,12 +408,13 @@ btns.forEach(function(btn) {
         modal.style.display = "block";
     }
 });
+
 logo.onclick = function(){
     console.log(hexModal);
     var selectedValue = document.querySelector('.select-box').value;
     if(selectedValue != 'hexadecimal')
     {
-        return;s
+        return;
     }
     if(logoClicked === false && selectedValue === "hexadecimal")
     {
@@ -462,7 +433,25 @@ logo.onclick = function(){
         bearAudio.play();
         bearAudio.volume = 0.4;
     }
-    startTextRotation();
+    showNextText();
+}
+
+nextButton.onclick = function(){
+    if(currentIndex % texts.length === 0)
+    {
+        bearAudio.pause();
+        enableSelectBox();
+        var $rifle = document.querySelector('.clickable-rifle');
+        $rifle.classList.add('hidden');
+        document.body.classList.add('crosshair');
+        haveRifle = true;
+        console.log(haveRifle);
+        document.querySelector('.image-rifle').classList.remove('invisible');
+        modal.style.display = "none";
+    }
+    else{
+        showNextText();
+    }
 }
 
 document.querySelector('.clickable-rifle').addEventListener('click', function () {
@@ -475,6 +464,7 @@ document.querySelector('.clickable-rifle').addEventListener('click', function ()
     console.log(haveRifle);
     document.querySelector('.image-rifle').classList.remove('invisible');
     modal.style.display = "none";
+    
 });
 
 function showNextText() {
@@ -490,31 +480,19 @@ function showNextText() {
     currentIndex = (currentIndex + 1) % texts.length;
     console.log(currentIndex);
     clearInterval(intervalId);
-
-    if(currentIndex <= 3 && currentIndex != 0)
-    {
-        intervalId = setInterval(showNextText, 5000);
-        console.log(currentIndex);
-        console.log(texts.length);
-    }
-    else if(currentIndex % texts.length === 0)
+    if(currentIndex % texts.length === 0)
     {
         console.log(currentIndex);
         console.log(texts.length);
-        console.log('I am supposed to run')
-        intervalId = setInterval(showNextText, 6000);
-        stopTextRotation();
+        console.log('I am supposed to run');
         hexModal = false;
         $rifle.classList.remove('hidden');
-    }
-    else{
-        intervalId = setInterval(showNextText, 2000);
-        console.log(currentIndex);
-        console.log(texts.length);
+        nextButton.textContent = 'Take Rifle';
     }
 }
+
 function startTextRotation() {
-    showNextText();
+    // showNextText();
 }
 function stopTextRotation() {
     clearInterval(intervalId);
